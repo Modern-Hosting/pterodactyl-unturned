@@ -1,0 +1,122 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1",
+        "update_url": null
+    },
+    "exported_at": "2021-04-09T14:15:10-04:00",
+    "name": "Rocketmod Unturned",
+    "author": "admin@modern-hosting.com",
+    "description": "Unturned dedicated server with Rocketmod.",
+    "features": null,
+    "images": [
+        "edbtvplays\/pterodactyl-rocketmod-unturned:latest"
+    ],
+    "file_denylist": [],
+    "startup": ".\/Unturned_Headless.x86_64 -batchmode -nographics -ThreadedConsole -port {{SERVER_PORT}} -maxplayers {{MAX_PLAYERS}} -name {{SERVER_NAME}} -perspective {{PERSPECTIVE}} -map {{MAP}} -mode {{DIFFICULTY}} -owner {{OWNER}} -password {{PASSWORD}} -gslt {{GSLT}} +secureserver\/unturned",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"Loading level: 100%\",\r\n    \"userInteraction\": []\r\n}",
+        "logs": "{\r\n    \"custom\": true,\r\n    \"location\": \"latest.log\"\r\n}",
+        "stop": "shutdown"
+    },
+    "scripts": {
+        "installation": {
+            "script": "rm -rf \/mnt\/server\r\napt update\r\napt -y --no-install-recommends install curl lib32gcc1 ca-certificates\r\ncd \/tmp\r\ncurl -sSL -o steamcmd.tar.gz https:\/\/steamcdn-a.akamaihd.net\/client\/installer\/steamcmd_linux.tar.gz\r\nmkdir -p \/mnt\/server\/steam\r\ntar -xzvf steamcmd.tar.gz -C \/mnt\/server\/steam\r\ncd \/mnt\/server\/steam\r\nchown -R root:root \/mnt\r\nexport HOME=\/mnt\/server\r\n.\/steamcmd.sh +@sSteamCmdForcePlatformBitness 64 +login anonymous +force_install_dir \/mnt\/server +app_update 1110390 +quit\r\nmkdir -p \/mnt\/server\/Servers\/unturned\/Server\r\nmkdir -p \/mnt\/server\/Unturned_Headless_Data\/Plugins\/x86_64\/\r\ntouch \/mnt\/server\/Servers\/unturned\/Server\/Commands.dat",
+            "container": "ubuntu:16.04",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Max Players",
+            "description": "Max players allowed to play in the server",
+            "env_variable": "MAX_PLAYERS",
+            "default_value": "24",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|integer|between:1,100"
+        },
+        {
+            "name": "Rocketmod Auto Update",
+            "description": "Input 1 to enable or 0 to disable",
+            "env_variable": "ROCKET_AUTOUPDATE",
+            "default_value": "1",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|integer|between:0,1"
+        },
+        {
+            "name": "Unturned Auto Update",
+            "description": "Input 1 to enable or 0 to disable",
+            "env_variable": "GAME_AUTOUPDATE",
+            "default_value": "1",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|integer|between:0,2"
+        },
+        {
+            "name": "Server Name",
+            "description": "The Server's Name displayed on the master server list.",
+            "env_variable": "SERVER_NAME",
+            "default_value": "Server Provided By Modern Hosting",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:50"
+        },
+        {
+            "name": "Perspective",
+            "description": "The allowed in game camera perspective (first, third, both)",
+            "env_variable": "PERSPECTIVE",
+            "default_value": "both",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Map",
+            "description": "Sets the server's map",
+            "env_variable": "MAP",
+            "default_value": "PEI",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:50"
+        },
+        {
+            "name": "Difficulty",
+            "description": "The difficulty mode of the server (easy,normal,hard)",
+            "env_variable": "DIFFICULTY",
+            "default_value": "normal",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Owner",
+            "description": "Grants all commands to the server owner using their Steam ID64",
+            "env_variable": "OWNER",
+            "default_value": "76561198103220039",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20"
+        },
+        {
+            "name": "Password",
+            "description": "The server's password that is required to join the server",
+            "env_variable": "PASSWORD",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "max:20"
+        },
+        {
+            "name": "Game Server Login Token",
+            "description": "Steam Authentication Token to verify your server.",
+            "env_variable": "GSLT",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "max:33"
+        }
+    ]
+}
