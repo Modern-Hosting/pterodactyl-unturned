@@ -3,7 +3,7 @@ sleep 2
 
 cd /home/container
 
-if [ "${GAME_AUTOUPDATE}" == "1" ]; then
+if [ "${GAME_AUTOUPDATE}" != "0" ]; then
     ./steam/steamcmd.sh +@sSteamCmdForcePlatformBitness 64 +login anonymous +force_install_dir /home/container +app_update 1110390 +quit
 fi
 
