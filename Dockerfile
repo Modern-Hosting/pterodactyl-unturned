@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-MAINTAINER HCGCLOUD, <service@hcgcloud.com>
+MAINTAINER MODERNHOSTING, <admin@modern-hosting.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
